@@ -16,7 +16,9 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - .:/app
+      # - .:/app
+      - static_data:/app/static
+      - media_data:/app/media
     environment:
       - DB_HOST=db
       - DB_NAME=cinema
@@ -32,3 +34,5 @@ services:
 
 volumes:
   postgres_data:
+  static_data:
+  media_data:
