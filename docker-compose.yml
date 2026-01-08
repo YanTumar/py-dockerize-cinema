@@ -17,14 +17,12 @@ services:
       - "8000:8000"
     volumes:
       - .:/app
-      - static_data:/vol/web/static
-      - media_data:/vol/web/media
     environment:
       - DB_HOST=db
       - DB_NAME=cinema
       - DB_USER=postgres
       - DB_PASS=postgres
-      - SECRET_KEY=your_secret_key_here
+      - SECRET_KEY=django-insecure-key-repalce-me
     depends_on:
       - db
     command: >
@@ -34,5 +32,3 @@ services:
 
 volumes:
   postgres_data:
-  static_data:
-  media_data:
