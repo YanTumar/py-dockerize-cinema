@@ -16,10 +16,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-RUN mkdir -p /vol/web/media /vol/web/static
+RUN mkdir -p /app/media /app/static
 
 RUN adduser --disabled-password --no-create-home django-user
-RUN chown -R django-user:django-user /vol/
-RUN chmod -R 755 /vol/
+
+RUN chown -R django-user:django-user /app/
+RUN chmod -R 755 /app/
 
 USER django-user
