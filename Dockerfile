@@ -1,5 +1,5 @@
 FROM python:3.10-slim
-LABEL maintainer="yantumar@gmail.com"
+LABEL maintainer="jantumar.unity@gmail.com"
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
@@ -16,9 +16,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-RUN mkdir -p /app/media /app/static
-
 RUN adduser --disabled-password --no-create-home django-user
+
+RUN mkdir -p /app/media /app/static
 
 RUN chown -R django-user:django-user /app/
 RUN chmod -R 755 /app/
