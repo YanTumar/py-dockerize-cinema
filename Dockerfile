@@ -12,8 +12,11 @@ RUN apk add --no-cache postgresql-client jpeg-dev && \
         gcc python3-dev musl-dev postgresql-dev zlib-dev && \
     pip install --upgrade pip && \
     pip install -r /tmp/requirements.txt && \
-    apk del .build-deps && \
-    adduser \
+    apk del .build-deps
+
+COPY . .
+
+RUN adduser \
         --disabled-password \
         --no-create-home \
         django-user && \
@@ -21,7 +24,5 @@ RUN apk add --no-cache postgresql-client jpeg-dev && \
     chown -R django-user:django-user /app && \
     chmod -R 755 /app && \
     find /app -type f -exec chmod 644 {} +
-
-COPY . .
 
 USER django-user
