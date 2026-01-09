@@ -1,26 +1,27 @@
-FROM python:3.10-slim
-LABEL maintainer="jantumar.unity@gmail.com"
+FROM python:3.10-alpine
+LABEL maintainer="your_email@example.com"
 
-ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y \
-    libpq-dev \
-    gcc \
-    && rm -rf /var/lib/apt/lists/*
+COPY ./requirements.txt /tmp/requirements.txt
 
-COPY requirements.txt requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+RUN apk add --no-cache postgresql-client jpeg-dev && \
+    apk add --no-cache --virtual .build-deps \
+        gcc python3-dev musl-dev postgresql-dev zlib-dev && \
+    pip install --upgrade pip && \
+    pip install -r /tmp/requirements.txt && \
+    apk del .build-deps && \
+    adduser \
+        --disabled-password \
+        --no-create-home \
+        django-user && \
+    mkdir -p /app/media /app/static && \
+    chown -R django-user:django-user /app && \
+    chmod -R 755 /app && \
+    find /app -type f -exec chmod 644 {} +
 
 COPY . .
-
-RUN adduser --disabled-password --no-create-home django-user
-
-RUN mkdir -p /app/media /app/static
-
-RUN chown -R django-user:django-user /app/
-RUN chmod -R 755 /app/
 
 USER django-user
